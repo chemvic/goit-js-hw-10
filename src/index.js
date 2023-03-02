@@ -1,12 +1,14 @@
-import './css/styles.css';
-import { debounce } from 'throttle-debounce';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-const DEBOUNCE_DELAY = 300;
 
+import  debounce  from 'lodash.debounce';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+import './css/styles.css';
+
+const DEBOUNCE_DELAY = 300;
 const inputEl = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
-
-inputEl.addEventListener('input', onSearch);
+const countryInfo = document.querySelector('.country-info');
+inputEl.addEventListener('input',onSearch );
 
 function onSearch(event) {
     event.preventDefault();
@@ -18,17 +20,22 @@ function onSearch(event) {
     
     fetch(url)
         .then(response => response.json())
-        .then(country => renderCountryList(country));
+        .then(country => renderCountryList(country))
+        // .then(country=> renderCountryInfo(country))
     
     ;
    
 }
 
- function renderCountryList(country) {
-        const markup = country.map(({ name, flags }) => { return `<li><img src="${flags.svg}"  alt="${flags.alt}" width="25" /><span>${name.official}</span></li> ` });
+ function renderCountryList(country) { 
+     const markup = country.map(({ name, flags, capital, population, languages }) =>
+     { return `<li><h2><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</h2></li><p><b>Capital:  </b>${capital}</p><p><b>Population: </b>${population}</p><p><b>Languages:  </b>${Object.values(languages).join(", ")}</p> ` });
         countryList.innerHTML = markup;
     }
-
+// function renderCountryInfo(country) {
+//     const markup = `<p>Capital: ${capital}</p><p>Population: ${population}</p><p>Languages: ${languages}</p>`;
+//     countryInfo.innerHTML = markup;
+// }
 
 
 // debounce(, DEBOUNCE_DELAY),  {
