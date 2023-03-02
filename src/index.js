@@ -8,12 +8,12 @@ const DEBOUNCE_DELAY = 300;
 const inputEl = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
-inputEl.addEventListener('input',onSearch );
+inputEl.addEventListener('input',debounce(onSearch, DEBOUNCE_DELAY) );
 
 function onSearch(event) {
     event.preventDefault();
 
-    const inputData = event.currentTarget.value;
+    const inputData = inputEl.value;
     console.log(inputData);
 
     const url = `https://restcountries.com/v3.1/name/${inputData}?fields=name,capital,population,flags,languages`;
