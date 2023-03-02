@@ -8,7 +8,7 @@ const DEBOUNCE_DELAY = 300;
 const inputEl = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
-inputEl.addEventListener('input',debounce(onSearch, DEBOUNCE_DELAY) );
+inputEl.addEventListener('input',debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch(event) {
     event.preventDefault();
@@ -29,7 +29,7 @@ function onSearch(event) {
 
  function renderCountryList(country) { 
      const markup = country.map(({ name, flags, capital, population, languages }) =>
-     { return `<li><h2><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</h2></li><p><b>Capital:  </b>${capital}</p><p><b>Population: </b>${population}</p><p><b>Languages:  </b>${Object.values(languages).join(", ")}</p> ` });
+     { return `<li><h2><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</h2></li><p><b>Capital:  </b>${capital}</p><p><b>Population: </b>${population}</p><p><b>Languages:  </b>${Object.values(languages).join(", ")}</p> ` }).join("");
         countryList.innerHTML = markup;
     }
 // function renderCountryInfo(country) {
@@ -38,10 +38,6 @@ function onSearch(event) {
 // }
 
 
-// debounce(, DEBOUNCE_DELAY),  {
-//       leading: false,
-//       trailing: true,
-//     }
 
 // function renderCountrisName(arrayCountriesName) {
 //     const markup = arrayCountriesName.map(({name, flags}) => {
