@@ -3,7 +3,7 @@ import  debounce  from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import './css/styles.css';
-
+import fetchCountries from "../src/fetchCountries"
 const DEBOUNCE_DELAY = 300;
 const inputEl = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
@@ -13,35 +13,59 @@ inputEl.addEventListener('input',debounce(onSearch, DEBOUNCE_DELAY));
 function onSearch(event) {
     event.preventDefault();
 
-    const inputData = inputEl.value;
-    console.log(inputData);
-
-    const url = `https://restcountries.com/v3.1/name/${inputData}?fields=name,capital,population,flags,languages`;
+    const inputData = inputEl.value.trim();
+    console.log(inputData); 
     
-    fetch(url)
-        .then(response => response.json())
-        .then(country => renderCountryList(country))
-        // .then(country=> renderCountryInfo(country))
-    
-    ;
-   
+    fetchCountries(inputData)
+        .then(renderCountryList)
+        .catch(onFetchError)
+        
 }
 
- function renderCountryList(country) { 
-     const markup = country.map(({ name, flags, capital, population, languages }) =>
-     { return `<li><h2><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</h2></li><p><b>Capital:  </b>${capital}</p><p><b>Population: </b>${population}</p><p><b>Languages:  </b>${Object.values(languages).join(", ")}</p> ` }).join("");
-        countryList.innerHTML = markup;
+
+
+function onFetchError() {
+     Notify.failure( "Oops, there is no country with that name");
+};
+
+
+function renderCountryList(country) { 
+   
+    if (country.length>1&&country.length<=10) {
+
+        countryInfo.innerHTML = "";
+      drawCountryList(country)
+    } else if (country.length === 1) {
+        drawOneCountryList(country);
+        drawCountryInfo(country);
+   
+    } else if (country.length > 10 ) {
+        Notify.info("Too many matches found. Please enter a more specific name.");
     }
-// function renderCountryInfo(country) {
-//     const markup = `<p>Capital: ${capital}</p><p>Population: ${population}</p><p>Languages: ${languages}</p>`;
-//     countryInfo.innerHTML = markup;
-// }
+    
+    }
+function drawCountryInfo(country) {
+     const markup = country.map(({ capital, population, languages}) =>
+     {
+         return `<p><b>Capital:  </b>${capital}</p><p><b>Population: </b>${population}</p><p><b>Languages:  </b>${Object.values(languages).join(", ")}</p> `
+     }).join("");;
+    countryInfo.innerHTML = markup;
+}
 
+function drawCountryList(country){ const markup = country.map(({ name, flags}) =>
+     { return `<li><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</li>` }).join("");
+    countryList.innerHTML = markup;
+}
+        
+function drawOneCountryList(country){const markup = country.map(({ name, flags}) =>
+     { return `<li><h2><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</h2></li>` }).join("");
+    countryList.innerHTML = markup;
+}
+        
+    //      const markup = country.map(({ name, flags}) =>
+    //  { return `<li><p><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</p></li>` }).join("");
+    //     countryList.innerHTML = markup;
 
-
-// function renderCountrisName(arrayCountriesName) {
-//     const markup = arrayCountriesName.map(({name, flags}) => {
-//         return `<li><img src="${flags.svg}" alt="${flags.alt}" width="25" height="15"><span>${name.common}</span></li>`;
-//     }).join("");
-//     countriesList.innerHTML = markup;
-// }
+ //      const markup = country.map(({ name, flags, capital, population, languages }) =>
+    //  { return `<li><h2><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</h2></li><p><b>Capital:  </b>${capital}</p><p><b>Population: </b>${population}</p><p><b>Languages:  </b>${Object.values(languages).join(", ")}</p> ` }).join("");
+    //     countryList.innerHTML = markup;
