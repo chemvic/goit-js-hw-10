@@ -14,8 +14,7 @@ function onSearch(event) {
     event.preventDefault();
 
     const inputData = inputEl.value.trim();
-    console.log(inputData); 
-    
+        
     fetchCountries(inputData)
         .then(renderCountryList)
         .catch(onFetchError)
