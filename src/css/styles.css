@@ -21,3 +21,7 @@ body {
 .country-list{
   list-style: none;
 }
+
+.country-info{
+margin-left: 40px;
+}
