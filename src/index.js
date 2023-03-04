@@ -14,7 +14,8 @@ function onSearch(event) {
     event.preventDefault();
 
     const inputData = inputEl.value.trim();
-    if (inputEl.value === "") { return; };
+    if (inputData === "") { return; };
+    
     fetchCountries(inputData)
         .then(renderCountryList)
         .catch(onFetchError)
