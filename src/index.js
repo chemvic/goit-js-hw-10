@@ -68,11 +68,3 @@ function drawOneCountryList(country){const markup = country.map(({ name, flags})
      { return `<li><h2><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</h2></li>` }).join("");
     countryList.innerHTML = markup;
 }
-        
-    //      const markup = country.map(({ name, flags}) =>
-    //  { return `<li><p><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</p></li>` }).join("");
-    //     countryList.innerHTML = markup;
-
- //      const markup = country.map(({ name, flags, capital, population, languages }) =>
-    //  { return `<li><h2><img src="${flags.svg}"  alt="${flags.alt}" width="25" />  ${name.official}</h2></li><p><b>Capital:  </b>${capital}</p><p><b>Population: </b>${population}</p><p><b>Languages:  </b>${Object.values(languages).join(", ")}</p> ` }).join("");
-    //     countryList.innerHTML = markup;
